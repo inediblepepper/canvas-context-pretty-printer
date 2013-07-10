@@ -46,7 +46,6 @@ POSSIBILITY OF SUCH DAMAGE.
 
         <script type="text/javascript" src="/sdk/js/canvas-all.js"></script>
         <script type="text/javascript" src="/scripts/json2.js"></script>
-        <script type="text/javascript" src="/scripts/chatter-talk.js"></script>
 
         <script>
             if (self === top) {
@@ -56,70 +55,54 @@ POSSIBILITY OF SUCH DAMAGE.
 
             Sfdc.canvas(function() {
                 var sr = JSON.parse('<%=signedRequestJson%>');
-                var photoUri = sr.context.user.profileThumbnailUrl +  "?oauth_token=" + sr.client.oauthToken;
-                /**
-                 * Check if we are in sites/communities.  If so, derive the url accordingly.
-                 */
-                var isSites=null != sr.context.user.networkId;
-                var siteHost = isSites ? sr.context.user.siteUrl : sr.client.instanceUrl;
-                if (siteHost.lastIndexOf("/") == siteHost.length-1){
-                	siteHost = siteHost.substring(0,siteHost.length-1);
-                }
-                Sfdc.canvas.byId('fullname').innerHTML = sr.context.user.fullName;
-                Sfdc.canvas.byId('profile').src = (photoUri.indexOf("http")==0 ? "" :siteHost) + photoUri;
-                Sfdc.canvas.byId('firstname').innerHTML = sr.context.user.firstName;
-                Sfdc.canvas.byId('lastname').innerHTML = sr.context.user.lastName;
-                Sfdc.canvas.byId('username').innerHTML = sr.context.user.userName;
-                Sfdc.canvas.byId('email').innerHTML = sr.context.user.email;
-                Sfdc.canvas.byId('company').innerHTML = sr.context.organization.name;
-
-                chatterTalk.init(sr, "chatter-submit", "speech-input-field", function(data) {
-                    Sfdc.canvas.byId('status').innerHTML = data.statusText;
-                    Sfdc.canvas.byId("speech-input-field").value = "";
-                });
+                Sfdc.canvas.client.autogrow(sr.client);
+                Sfdc.canvas.byId('canvas-request-string').innerHTML = jsonSyntaxHighlight(sr);
             });
+            
+            function jsonSyntaxHighlight(json) {
+                if (typeof json != 'string') {
+                     json = JSON.stringify(json, undefined, 2);
+                }
+                json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                    var cls = 'number';
+                    if (/^"/.test(match)) {
+                        if (/:$/.test(match)) {
+                            cls = 'key';
+                        } else {
+                            cls = 'string';
+                        }
+                    } else if (/true|false/.test(match)) {
+                        cls = 'boolean';
+                    } else if (/null/.test(match)) {
+                        cls = 'null';
+                    }
+                    return '<span class="' + cls + '">' + match + '</span>';
+                });
+            }
 
         </script>
+        <style>
+pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
+.string { color: green; }
+.number { color: darkorange; }
+.boolean { color: blue; }
+.null { color: magenta; }
+.key { color: red; }
+        </style>
     </head>
     <body>
     <div id="page">
         <div id="content">
             <div id="header">
-                <h1 >Hello <span id='fullname'></span>!</h1>
-                <h2>Welcome to the Force.com Canvas Java Quick Start Template!</h2>
+                <h2>Welcome to the Force.com Canvas Request Context Pretty-Print Utility!</h2>
             </div>
 
             <div id="canvas-content">
-                <h1>Canvas Request</h1>
-                <h2>Below is some information received in the Canvas Request:</h2>
-                <div id="canvas-request">
-                    <table border="0" width="100%">
-                        <tr>
-                            <td></td>
-                            <td><b>First Name: </b><span id='firstname'></span></td>
-                            <td><b>Last Name: </b><span id='lastname'></span></td>
-                        </tr>
-                        <tr>
-                            <td><img id='profile' border="0" src="" /></td>
-                            <td><b>Username: </b><span id='username'></span></td>
-                            <td colspan="2"><b>Email Address: </b><span id='email'></span></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td colspan="3"><b>Company: </b><span id='company'></span></td>
-                        </tr>
-                    </table>
-                </div>
-                <div id="canvas-chatter">
-                    <table border="0" width="100%">
-                        <tr>
-                            <td width="15%"><b>Post to Chatter:&nbsp</b></td>
-                            <td width="65%"><input id="speech-input-field" type="text" x-webkit-speech/></td>
-                            <td width="6%"><button id="chatter-submit" type="submit"/></td>
-                            <td width="10%"><span id="status" style="color:green"></span></td>
-                        </tr>
-                    </table>
-                </div>
+                <h2>Below is the JSON representation of Canvas Request:</h2>
+                <pre id="canvas-request-string">
+                <!-- TODO -->
+                </pre>
             </div>
         </div>
 
