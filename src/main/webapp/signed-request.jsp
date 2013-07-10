@@ -83,7 +83,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
         </script>
         <style>
-pre {white-space: pre-line;padding: 5px; margin: 5px; }
+pre {white-space: pre-wrap;padding: 5px; margin: 5px; }
 .string { color: green; }
 .number { color: darkorange; }
 .boolean { color: blue; }
