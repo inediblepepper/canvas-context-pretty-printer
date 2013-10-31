@@ -64,4 +64,4 @@ Salesforce Canvas is a mashup framework for consuming third party applications w
 ### Want to clone this application into your org?
    
    If you want to clone this application into your organization as a starting point,
-   click on this link: http://spepper-wsm.internal.salesforce.com:8080/apex/git2canvas?appName=Canvas+Pretty+Printer&appDesc=Handy+canvas+application+to+JSON+pretty+print+the+canvas+context&repoUrl=git@github.com:slpepper015/canvas-context-pretty-printer.git 
+   click on this link: http://spepper-wsm.internal.salesforce.com:8080/apex/git2canvas?appName=Canvas+Pretty+Printer&appDesc=Handy+canvas+application+to+JSON+pretty+print+the+canvas+context&repoUrl=git@github.com:slpepper015/canvas-context-pretty-printer.git&herokuName=canvas-pretty-print
