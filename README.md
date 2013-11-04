@@ -1,7 +1,7 @@
-SFDC Canvas Java Template  
+Canvas Pretty Print Utility
 ============================
 
-Salesforce Canvas is a mashup framework for consuming third party applications within Salesforce. Its goal is to connect applications at a UI level instead of an API level. Platform Connect will provide third party applications with a JavaScript SDK along with Java classes so they can seamlessly integrate canvas style applications, while developing in the technology and platform of their choice. 
+This is a handy utility that pretty-prints the Force.com Canvas context in JSON format, with syntax highlighting.  It's useful for debugging information about the current user, org, oauth tokens, etc.  Enjoy!
 
 ### How to Build The app locally
 
